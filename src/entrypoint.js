@@ -17,6 +17,17 @@ async function fileExists(path) {
 async function run() {
   const day = Number(process.argv[2]);
   const part = Number(process.argv[3]);
+  process.argv.shift(); // name
+  process.argv.shift(); // day
+  process.argv.shift(); // day-index
+  process.argv.shift(); // part-index
+
+  const opts = {};
+
+  for (let opt of process.argv) {
+    const [key, value] = opt.split("=");
+    opts[key] = value || true;
+  }
 
   if (Number.isNaN(day)) {
     console.log("$ aoc [day] [?part]");
@@ -69,7 +80,7 @@ async function run() {
       }
 
       let res = undefined;
-      if (inputString) {
+      if (inputString && !opts["--only-example"]) {
         res = await solverFn(inputString);
       }
 
