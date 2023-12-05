@@ -23,19 +23,13 @@ async function run() {
     process.exit(1);
   }
 
-  let buffer = "";
-  const log = (...msg) => {
-    console.log(msg.join(" "));
-    buffer += msg.join(" ") + "\n";
-  };
-
   let days = (await fs.readdir(path.join(__dirname, "days")))
     .map(Number)
     .sort((a, b) => a - b)
     .filter((d) => d === day);
 
   for (let day of days.map(Number).sort((a, b) => a - b)) {
-    log(`\n⭐️ Day ${day} ⭐️`);
+    console.log(`\n## ⭐️ Day ${day} ⭐️`);
 
     async function solvePart(partIndex) {
       const solver = path.resolve(
@@ -79,18 +73,19 @@ async function run() {
         res = await solverFn(inputString);
       }
 
-      log(
-        "\n",
-        "Part " + partIndex + " :",
-        "\n\n",
-        chalk.green("Input"),
-        "\n",
-        res,
-        "\n",
-        chalk.grey("Example"),
-        "\n",
-        exampleRes,
-        "\n"
+      console.log(
+        "### Part " +
+          partIndex +
+          " :" +
+          "\n\n" +
+          chalk.green("#### Input") +
+          "\n\n" +
+          res +
+          "\n\n" +
+          chalk.grey("#### Example") +
+          "\n\n" +
+          exampleRes +
+          "\n"
       );
     }
 
@@ -100,8 +95,6 @@ async function run() {
     } else {
       await solvePart(part);
     }
-
-    log();
   }
 }
 
